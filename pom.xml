@@ -1,0 +1,99 @@
+<project>
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>eap64.migration.apps</groupId>
+   <version>1.0</version>
+   <artifactId>jboss-eap64-migration-apps-parent</artifactId>
+   <packaging>pom</packaging>
+   <name>project</name>
+
+   <!--
+   <modules>
+      <module>helloworld</module>
+	   </modules>
+    -->
+  
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <version.server.bom>6.4.0.GA</version.server.bom>
+    <eap.local.repo.url>file:///opt/jboss6/mvn-repo</eap.local.repo.url>
+  </properties>
+	<dependencyManagement>
+		<dependencies>
+			<!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any 
+				dependencies from org.jboss.spec will have their version defined by this 
+				BOM -->
+			<!-- JBoss distributes a complete set of Java EE 6 APIs including a Bill 
+				of Materials (BOM). A BOM specifies the versions of a "stack" (or a collection) 
+				of artifacts. We use this here so that we always get the correct versions 
+				of artifacts. Here we use the jboss-javaee-web-6.0 stack (you can read this 
+				as the JBoss stack of the Java EE 6 Web Profile APIs), and we use version 
+				2.0.0.Beta1 which is the latest release of the stack. You can actually use 
+				this stack with any version of JBoss AS that implements Java EE 6, not just 
+				JBoss AS 7! -->
+				 
+		    <!-- 
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-6.0</artifactId>
+				<version>3.0.3.Final</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			 -->
+			
+			 <!-- importing the jakartaee8-with-tools BOM adds specs and other useful artifacts as managed dependencies -->
+            <dependency>
+                <groupId>org.jboss.bom.eap</groupId>
+                <artifactId>jboss-javaee-6.0-with-tools</artifactId>
+                <version>${version.server.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+		</dependencies>
+	</dependencyManagement>
+   
+	<profiles>
+		<profile>
+			<id>jboss-community-and-eap-repository</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<repositories>
+				<repository>
+					<id>jboss-community-repository</id>
+					<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+
+				<repository>
+					<id>jboss-eap-repository</id>
+					<url>${eap.local.repo.url}</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<id>jboss-community-plugin-repository</id>
+					<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+					<releases>
+						<enabled>true</enabled>
+					</releases>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
+</project>
